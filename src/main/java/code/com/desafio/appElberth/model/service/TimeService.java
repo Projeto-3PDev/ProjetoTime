@@ -1,9 +1,9 @@
 package code.com.desafio.appElberth.model.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import code.com.desafio.appElberth.model.domain.Time;
@@ -15,8 +15,12 @@ public class TimeService {
 	@Autowired
 	private TimeRepository timeRepository;
 	
+	public List<Time> obterLista(String campo){
+		return (List<Time>) timeRepository.findAll(Sort.by(Sort.Direction.ASC, campo));
+	}
+
 	public List<Time> obterLista(){
-		return (List<Time>) timeRepository.findAll();
+		return (List<Time>) timeRepository.findAll(Sort.by(Sort.Direction.ASC, "nome"));
 	}
 	
 	public void incluir(Time time) {
@@ -27,7 +31,7 @@ public class TimeService {
 		timeRepository.deleteById(id);
 	}
 	
-	public Optional<Time> obterPorId(Integer id) {
-		return timeRepository.findById(id);
+	public Time obterPorId(Integer id) {
+		return timeRepository.findById(id).orElse(null);
 	}	
 }

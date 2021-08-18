@@ -1,13 +1,12 @@
 package code.com.desafio.appElberth.controller;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import code.com.desafio.appElberth.model.domain.Time;
 import code.com.desafio.appElberth.model.service.TimeService;
@@ -31,17 +30,17 @@ public class TimeController {
 	@GetMapping(value = "/time/{id}/excluir")
 	public String excluir(Model model, @PathVariable Integer id) {
 		
-		Optional<Time> timeExcluido = timeService.obterPorId(id);
+		Time timeExcluido = timeService.obterPorId(id);
 		
 		String msg = "Foi impossível realizar a exclusão";
 
-		if(timeExcluido.isPresent()) {
+//		if(timeExcluido.isPresent()) {
 			timeService.excluir(id);
 			
-			Time time = timeExcluido.get();
+//			Time time = timeExcluido.get();
 			
-			msg = "Time " + time.getNome() + " excluído com sucesso!!!";
-		}
+			msg = "Time " + timeExcluido.getNome() + " excluído com sucesso!!!";
+//		}
 		
 		model.addAttribute("mensagem", msg);
 		
@@ -58,15 +57,33 @@ public class TimeController {
 		return obterLista(model);
 	}
 	
-	@GetMapping(value = "/time/consultar")
-	public String consultar() {
-		return "";
+	@GetMapping(value = "/time/{id}/consultar")
+	public String consultar(Model model, @PathVariable Integer id) {
+		
+		Time time = timeService.obterPorId(id);
+		
+		model.addAttribute("meuTime", time);
+		
+		return telaCadastro();
 	}
 	
 	@GetMapping(value = "/time/lista")
 	public String obterLista(Model model) {
 
 		model.addAttribute("times", timeService.obterLista());
+		
+		return "time/lista";
+	}
+	
+	@GetMapping(value = "/voltar")
+	public String voltar() {
+		return "redirect:/time/lista";
+	}
+	
+	@PostMapping(value = "/time/ordenar")
+	public String ordenar(Model model, @RequestParam String sortBy) {		
+
+		model.addAttribute("times", timeService.obterLista(sortBy));
 		
 		return "time/lista";
 	}

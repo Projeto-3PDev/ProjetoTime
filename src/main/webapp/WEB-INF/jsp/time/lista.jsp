@@ -26,7 +26,21 @@
 	
 		<c:if test="${not empty times}">  		
 		  	<h2>Listagem de times: ${times.size()}</h2>
-		  
+		  	
+		  	<form action="/time/ordenar" method="post">
+			  	<div class="input-group">
+					
+					<select name="sortBy" class="form-control">
+						<option value="nome">Nome</option>
+						<option value="anoFundacao">Ano de fundação</option>
+					</select>			      
+
+			      <div class="input-group-btn">
+			        <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-sort-by-alphabet"></i></button>
+			      </div>
+			    </div>		  	
+		  	</form>
+
 			<table class="table table-striped">
 			  <thead>
 			    <tr>
@@ -38,13 +52,13 @@
 			    </tr>
 			  </thead>
 			  <tbody>
-			  	<c:forEach var="time" items="${times}" varStatus="id">
+			  	<c:forEach var="time" items="${times}">
 				    <tr>
 				      <td>${time.id}</td>
 				      <td>${time.nome}</td>
 				      <td>${time.anoFundacao}</td>
 				      <td><a href="/time/${time.id}/excluir">Excluir</a></td>
-				      <td><a href="/time/consultar">Detalhar</a></td>
+				      <td><a href="/time/${time.id}/consultar">Detalhar</a></td>
 				    </tr>
 			    </c:forEach>
 			  </tbody>
