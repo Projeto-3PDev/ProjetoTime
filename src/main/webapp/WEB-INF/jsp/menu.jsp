@@ -6,6 +6,7 @@
     <ul class="nav navbar-nav">
       <li class="active"><a href="/">Home</a></li>
       <li><a href="/time/lista">Times</a></li>
+      <li><a href="/usuario/lista">Usuários</a></li>
     </ul>
   </div>
 </nav>

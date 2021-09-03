@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Time {
@@ -16,6 +18,9 @@ public class Time {
 	private float valor; 
 	private String siglaNacao;
 	private boolean clubeEmpresa;
+	@ManyToOne
+	@JoinColumn(name = "idusuario")
+	private Usuario usuario;
 	
 	public Time() {
 		this.setValor(999);
@@ -69,5 +74,13 @@ public class Time {
 	}
 	public void setId(Integer id) {
 		this.id = id;
+	}
+
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 }

@@ -29,6 +29,16 @@
 	  	<h2>${titulo}</h2>
 	  	
 		<form action="${rota}" method="${metodo}">
+
+		    <div class="form-group">
+		      <label>Usuário:</label>
+				<select class="form-control" name="usuario.id">			        
+			        <c:forEach var="u" items="${usuarioLista}">
+			        	<option value="${u.id}">${u.nome}</option>
+			        </c:forEach>			        
+		      	</select>
+		    </div>
+
 		    <div class="form-group">
 		      <label>Nome:</label>
 		      <input type="text" class="form-control" value="${meuTime.nome}" placeholder="Entre com o nome do time" name="nome">

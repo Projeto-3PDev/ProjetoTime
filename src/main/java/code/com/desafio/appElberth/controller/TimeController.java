@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import code.com.desafio.appElberth.model.domain.Time;
 import code.com.desafio.appElberth.model.service.TimeService;
+import code.com.desafio.appElberth.model.service.UsuarioService;
 
 @Controller
 public class TimeController {
@@ -17,13 +18,19 @@ public class TimeController {
 	@Autowired
 	private TimeService timeService;
 	
+	@Autowired
+	private UsuarioService usuarioService;
+	
 	@GetMapping(value = "/")
 	public String inicializa() {
 		return "index";
 	}
 	
 	@GetMapping(value = "/time")
-	public String telaCadastro(){
+	public String telaCadastro(Model model){
+		
+		model.addAttribute("usuarioLista", usuarioService.obterLista());
+		
 		return "time/cadastro";
 	}
 	
@@ -34,14 +41,10 @@ public class TimeController {
 		
 		String msg = "Foi impossível realizar a exclusão";
 
-//		if(timeExcluido.isPresent()) {
-			timeService.excluir(id);
-			
-//			Time time = timeExcluido.get();
-			
-			msg = "Time " + timeExcluido.getNome() + " excluído com sucesso!!!";
-//		}
-		
+		timeService.excluir(id);
+
+		msg = "Time " + timeExcluido.getNome() + " excluído com sucesso!!!";
+
 		model.addAttribute("mensagem", msg);
 		
 		return obterLista(model);
@@ -64,7 +67,7 @@ public class TimeController {
 		
 		model.addAttribute("meuTime", time);
 		
-		return telaCadastro();
+		return telaCadastro(model);
 	}
 	
 	@GetMapping(value = "/time/lista")
